@@ -1,0 +1,22 @@
+fastapi>=0.109.0
+uvicorn[standard]>=0.27.0
+pydantic>=2.6.0
+python-dotenv>=1.0.0
+
+# 주식 데이터
+yfinance>=0.2.35
+pykrx>=1.0.46
+
+# HTTP 요청
+requests>=2.31.0
+aiohttp>=3.9.0
+
+# 데이터 처리
+pandas>=2.2.0
+numpy>=2.0.0
+
+# RSS 파싱
+feedparser>=6.0.10
+
+# 스케줄링 (나중에 사용)
+apscheduler>=3.10.4
