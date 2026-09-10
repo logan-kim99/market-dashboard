@@ -1,0 +1,32 @@
+name: Refresh public macro data
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 2,14 * * *'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/refresh-macro-data.yml'
+      - 'scripts/refresh-macro-data.py'
+permissions:
+  contents: write
+concurrency:
+  group: refresh-macro-data
+  cancel-in-progress: false
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch public FRED observations
+        run: python3 scripts/refresh-macro-data.py
+      - name: Save updated observations
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/fred-series.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'Refresh public FRED observations'
+            git push
+          fi
